@@ -1,0 +1,2768 @@
+openapi: 3.0.0
+info:
+  description: "API endpoints that enable programmatic reading, writing, and updating\
+    \ of your AnythingLLM instance. UI supplied by Swagger.io."
+  title: AnythingLLM Developer API
+  version: 1.0.0
+servers:
+- url: https://raw.githubusercontent.com/api
+security:
+- BearerAuth: []
+paths:
+  /v1/auth:
+    get:
+      description: Verify the attached Authentication header contains a valid API
+        token.
+      parameters: []
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                example:
+                  authenticated: true
+                type: object
+          description: Valid auth token was found.
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+          description: Forbidden
+      tags:
+      - Authentication
+  /v1/admin/is-multi-user-mode:
+    get:
+      description: Check to see if the instance is in multi-user-mode first. Methods
+        are disabled until multi user mode is enabled via the UI.
+      parameters: []
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                example:
+                  isMultiUser: true
+                type: object
+          description: OK
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+          description: Forbidden
+      tags:
+      - Admin
+  /v1/admin/users:
+    get:
+      description: Check to see if the instance is in multi-user-mode first. Methods
+        are disabled until multi user mode is enabled via the UI.
+      parameters: []
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                example:
+                  users:
+                  - username: sample-sam
+                    role: default
+                type: object
+          description: OK
+        "401":
+          description: Instance is not in Multi-User mode. Method denied
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+          description: Forbidden
+        "500":
+          description: Internal Server Error
+      tags:
+      - Admin
+  /v1/admin/users/new:
+    post:
+      description: Create a new user with username and password. Methods are disabled
+        until multi user mode is enabled via the UI.
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            example:
+              username: sample-sam
+              password: hunter2
+              role: default | admin
+        description: Key pair object that will define the new user to add to the system.
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                example:
+                  user:
+                    id: 1
+                    username: sample-sam
+                    role: default
+                  error: null
+                type: object
+          description: OK
+        "400":
+          description: Bad Request
+        "401":
+          description: Instance is not in Multi-User mode. Method denied
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+          description: Forbidden
+        "500":
+          description: Internal Server Error
+      tags:
+      - Admin
+  /v1/admin/users/{id}:
+    delete:
+      description: Delete existing user by id. Methods are disabled until multi user
+        mode is enabled via the UI.
+      parameters:
+      - description: id of the user in the database.
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                example:
+                  success: true
+                  error: null
+                type: object
+          description: OK
+        "401":
+          description: Instance is not in Multi-User mode. Method denied
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+          description: Forbidden
+        "500":
+          description: Internal Server Error
+      tags:
+      - Admin
+    post:
+      description: Update existing user settings. Methods are disabled until multi
+        user mode is enabled via the UI.
+      parameters:
+      - description: id of the user in the database.
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            example:
+              username: sample-sam
+              password: hunter2
+              role: default | admin
+              suspended: 0
+        description: Key pair object that will update the found user. All fields are
+          optional and will not update unless specified.
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                example:
+                  success: true
+                  error: null
+                type: object
+          description: OK
+        "401":
+          description: Instance is not in Multi-User mode. Method denied
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+          description: Forbidden
+        "500":
+          description: Internal Server Error
+      tags:
+      - Admin
+  /v1/admin/invites:
+    get:
+      description: List all existing invitations to instance regardless of status.
+        Methods are disabled until multi user mode is enabled via the UI.
+      parameters: []
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                example:
+                  invites:
+                  - id: 1
+                    status: pending
+                    code: abc-123
+                    claimedBy: null
+                type: object
+          description: OK
+        "401":
+          description: Instance is not in Multi-User mode. Method denied
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+          description: Forbidden
+        "500":
+          description: Internal Server Error
+      tags:
+      - Admin
+  /v1/admin/invite/new:
+    post:
+      description: Create a new invite code for someone to use to register with instance.
+        Methods are disabled until multi user mode is enabled via the UI.
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            example:
+              workspaceIds:
+              - 1
+              - 2
+              - 45
+        description: Request body for creation parameters of the invitation
+        required: false
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                example:
+                  invite:
+                    id: 1
+                    status: pending
+                    code: abc-123
+                  error: null
+                type: object
+          description: OK
+        "401":
+          description: Instance is not in Multi-User mode. Method denied
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+          description: Forbidden
+        "500":
+          description: Internal Server Error
+      tags:
+      - Admin
+  /v1/admin/invite/{id}:
+    delete:
+      description: Deactivates (soft-delete) invite by id. Methods are disabled until
+        multi user mode is enabled via the UI.
+      parameters:
+      - description: id of the invite in the database.
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                example:
+                  success: true
+                  error: null
+                type: object
+          description: OK
+        "401":
+          description: Instance is not in Multi-User mode. Method denied
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+          description: Forbidden
+        "500":
+          description: Internal Server Error
+      tags:
+      - Admin
+  /v1/admin/workspaces/{workspaceId}/users:
+    get:
+      description: Retrieve a list of users with permissions to access the specified
+        workspace.
+      parameters:
+      - description: id of the workspace.
+        explode: false
+        in: path
+        name: workspaceId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                example:
+                  users:
+                  - userId: 1
+                    role: admin
+                  - userId: 2
+                    role: member
+                type: object
+          description: OK
+        "401":
+          description: Instance is not in Multi-User mode. Method denied
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+          description: Forbidden
+        "500":
+          description: Internal Server Error
+      tags:
+      - Admin
+  /v1/admin/workspaces/{workspaceId}/update-users:
+    post:
+      deprecated: true
+      description: Overwrite workspace permissions to only be accessible by the given
+        user ids and admins. Methods are disabled until multi user mode is enabled
+        via the UI.
+      parameters:
+      - description: id of the workspace in the database.
+        explode: false
+        in: path
+        name: workspaceId
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            example:
+              userIds:
+              - 1
+              - 2
+              - 4
+              - 12
+        description: Entire array of user ids who can access the workspace. All fields
+          are optional and will not update unless specified.
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                example:
+                  success: true
+                  error: null
+                type: object
+          description: OK
+        "401":
+          description: Instance is not in Multi-User mode. Method denied
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+          description: Forbidden
+        "500":
+          description: Internal Server Error
+      tags:
+      - Admin
+  /v1/admin/workspaces/{workspaceSlug}/manage-users:
+    post:
+      description: Set workspace permissions to be accessible by the given user ids
+        and admins. Methods are disabled until multi user mode is enabled via the
+        UI.
+      parameters:
+      - description: slug of the workspace in the database
+        explode: false
+        in: path
+        name: workspaceSlug
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            example:
+              userIds:
+              - 1
+              - 2
+              - 4
+              - 12
+              reset: false
+        description: Array of user ids who will be given access to the target workspace.
+          <code>reset</code> will remove all existing users from the workspace and
+          only add the new users - default <code>false</code>.
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                example:
+                  success: true
+                  error: null
+                  users:
+                  - userId: 1
+                    username: main-admin
+                    role: admin
+                  - userId: 2
+                    username: sample-sam
+                    role: default
+                type: object
+          description: OK
+        "401":
+          description: Instance is not in Multi-User mode. Method denied
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+          description: Forbidden
+        "404":
+          description: Not Found
+        "500":
+          description: Internal Server Error
+      tags:
+      - Admin
+  /v1/admin/workspace-chats:
+    post:
+      description: All chats in the system ordered by most recent. Methods are disabled
+        until multi user mode is enabled via the UI.
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            example:
+              offset: 2
+        description: Page offset to show of workspace chats. All fields are optional
+          and will not update unless specified.
+        required: false
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                example:
+                  success: true
+                  error: null
+                type: object
+          description: OK
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+          description: Forbidden
+        "500":
+          description: Internal Server Error
+      tags:
+      - Admin
+  /v1/admin/preferences:
+    post:
+      description: Update multi-user preferences for instance. Methods are disabled
+        until multi user mode is enabled via the UI.
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            example:
+              support_email: support@example.com
+        description: Object with setting key and new value to set. All keys are optional
+          and will not update unless specified.
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                example:
+                  success: true
+                  error: null
+                type: object
+          description: OK
+        "401":
+          description: Instance is not in Multi-User mode. Method denied
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+          description: Forbidden
+        "500":
+          description: Internal Server Error
+      tags:
+      - Admin
+  /v1/document/upload:
+    post:
+      description: Upload a new file to AnythingLLM to be parsed and prepared for
+        embedding.
+      parameters: []
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/_v1_document_upload_post_request"
+        description: File to be uploaded.
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                example:
+                  success: true
+                  error: null
+                  documents:
+                  - location: custom-documents/anythingllm.txt-6e8be64c-c162-4b43-9997-b068c0071e8b.json
+                    name: anythingllm.txt-6e8be64c-c162-4b43-9997-b068c0071e8b.json
+                    url: file://Users/tim/Documents/anything-llm/collector/hotdir/anythingllm.txt
+                    title: anythingllm.txt
+                    docAuthor: Unknown
+                    description: Unknown
+                    docSource: a text file uploaded by the user.
+                    chunkSource: anythingllm.txt
+                    published: "1/16/2024, 3:07:00 PM"
+                    wordCount: 93
+                    token_count_estimate: 115
+                type: object
+          description: OK
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+          description: Forbidden
+        "500":
+          description: Internal Server Error
+      tags:
+      - Documents
+  /v1/document/upload/{folderName}:
+    post:
+      description: "Upload a new file to a specific folder in AnythingLLM to be parsed\
+        \ and prepared for embedding. If the folder does not exist, it will be created."
+      parameters:
+      - description: Target folder path (defaults to 'custom-documents' if not provided)
+        example: my-folder
+        explode: false
+        in: path
+        name: folderName
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/_v1_document_upload_post_request"
+        description: File to be uploaded.
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                example:
+                  success: true
+                  error: null
+                  documents:
+                  - location: custom-documents/anythingllm.txt-6e8be64c-c162-4b43-9997-b068c0071e8b.json
+                    name: anythingllm.txt-6e8be64c-c162-4b43-9997-b068c0071e8b.json
+                    url: file://Users/tim/Documents/anything-llm/collector/hotdir/anythingllm.txt
+                    title: anythingllm.txt
+                    docAuthor: Unknown
+                    description: Unknown
+                    docSource: a text file uploaded by the user.
+                    chunkSource: anythingllm.txt
+                    published: "1/16/2024, 3:07:00 PM"
+                    wordCount: 93
+                    token_count_estimate: 115
+                type: object
+          description: OK
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+          description: Forbidden
+        "500":
+          content:
+            application/json:
+              schema:
+                example:
+                  success: false
+                  error: Document processing API is not online. Document will not
+                    be processed automatically.
+                type: object
+          description: Internal Server Error
+      tags:
+      - Documents
+  /v1/document/upload-link:
+    post:
+      description: "Upload a valid URL for AnythingLLM to scrape and prepare for embedding.\
+        \ Optionally, specify a comma-separated list of workspace slugs to embed the\
+        \ document into post-upload."
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              example:
+                link: https://anythingllm.com
+                addToWorkspaces: "workspace1,workspace2"
+                scraperHeaders:
+                  Authorization: Bearer token123
+                  My-Custom-Header: value
+              type: object
+        description: Link of web address to be scraped and optionally a comma-separated
+          list of workspace slugs to embed the document into post-upload.
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                example:
+                  success: true
+                  error: null
+                  documents:
+                  - id: c530dbe6-bff1-4b9e-b87f-710d539d20bc
+                    url: file://useanything_com.html
+                    title: useanything_com.html
+                    docAuthor: no author found
+                    description: No description found.
+                    docSource: URL link uploaded by the user.
+                    chunkSource: https:anythingllm.com.html
+                    published: "1/16/2024, 3:46:33 PM"
+                    wordCount: 252
+                    pageContent: AnythingLLM is the best....
+                    token_count_estimate: 447
+                    location: custom-documents/url-useanything_com-c530dbe6-bff1-4b9e-b87f-710d539d20bc.json
+                type: object
+          description: OK
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+          description: Forbidden
+        "500":
+          description: Internal Server Error
+      tags:
+      - Documents
+  /v1/document/raw-text:
+    post:
+      description: Upload a file by specifying its raw text content and metadata values
+        without having to upload a file.
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              example:
+                textContent: This is the raw text that will be saved as a document
+                  in AnythingLLM.
+                addToWorkspaces: "workspace1,workspace2"
+                metadata:
+                  title: This key is required. See in /server/endpoints/api/document/index.js:287
+                  keyOne: valueOne
+                  keyTwo: valueTwo
+                  etc: etc
+              type: object
+        description: Text content and metadata of the file to be saved to the system.
+          Use metadata-schema endpoint to get the possible metadata keys
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                example:
+                  success: true
+                  error: null
+                  documents:
+                  - id: c530dbe6-bff1-4b9e-b87f-710d539d20bc
+                    url: file://my-document.txt
+                    title: hello-world.txt
+                    docAuthor: no author found
+                    description: No description found.
+                    docSource: My custom description set during upload
+                    chunkSource: no chunk source specified
+                    published: "1/16/2024, 3:46:33 PM"
+                    wordCount: 252
+                    pageContent: AnythingLLM is the best....
+                    token_count_estimate: 447
+                    location: custom-documents/raw-my-doc-text-c530dbe6-bff1-4b9e-b87f-710d539d20bc.json
+                type: object
+          description: OK
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+          description: Forbidden
+        "422":
+          description: Unprocessable Entity
+        "500":
+          description: Internal Server Error
+      tags:
+      - Documents
+  /v1/documents:
+    get:
+      description: List of all locally-stored documents in instance
+      parameters: []
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                example:
+                  localFiles:
+                    name: documents
+                    type: folder
+                    items:
+                    - name: my-stored-document.json
+                      type: file
+                      id: bb07c334-4dab-4419-9462-9d00065a49a1
+                      url: file://my-stored-document.txt
+                      title: my-stored-document.txt
+                      cached: false
+                type: object
+          description: OK
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+          description: Forbidden
+        "500":
+          description: Internal Server Error
+      tags:
+      - Documents
+  /v1/documents/folder/{folderName}:
+    get:
+      description: Get all documents stored in a specific folder.
+      parameters:
+      - description: Name of the folder to retrieve documents from
+        explode: false
+        in: path
+        name: folderName
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                example:
+                  folder: custom-documents
+                  documents:
+                  - name: document1.json
+                    type: file
+                    cached: false
+                    pinnedWorkspaces: []
+                    watched: false
+                    more: data
+                  - name: document2.json
+                    type: file
+                    cached: false
+                    pinnedWorkspaces: []
+                    watched: false
+                    more: data
+                type: object
+          description: OK
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+          description: Forbidden
+        "500":
+          description: Internal Server Error
+      tags:
+      - Documents
+  /v1/document/accepted-file-types:
+    get:
+      description: Check available filetypes and MIMEs that can be uploaded.
+      parameters: []
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                example:
+                  types:
+                    application/mbox:
+                    - .mbox
+                    application/pdf:
+                    - .pdf
+                    application/vnd.oasis.opendocument.text:
+                    - .odt
+                    application/vnd.openxmlformats-officedocument.wordprocessingml.document:
+                    - .docx
+                    text/plain:
+                    - .txt
+                    - .md
+                type: object
+          description: OK
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+          description: Forbidden
+        "404":
+          description: Not Found
+        "500":
+          description: Internal Server Error
+      tags:
+      - Documents
+  /v1/document/metadata-schema:
+    get:
+      description: Get the known available metadata schema for when doing a raw-text
+        upload and the acceptable type of value for each key.
+      parameters: []
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                example:
+                  schema:
+                    keyOne: string | number | nullable
+                    keyTwo: string | number | nullable
+                    specialKey: number
+                    title: string
+                type: object
+          description: OK
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+          description: Forbidden
+        "500":
+          description: Internal Server Error
+      tags:
+      - Documents
+  /v1/document/{docName}:
+    get:
+      description: Get a single document by its unique AnythingLLM document name
+      parameters:
+      - description: Unique document name to find (name in /documents)
+        explode: false
+        in: path
+        name: docName
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                example:
+                  localFiles:
+                    name: documents
+                    type: folder
+                    items:
+                    - name: my-stored-document.txt-uuid1234.json
+                      type: file
+                      id: bb07c334-4dab-4419-9462-9d00065a49a1
+                      url: file://my-stored-document.txt
+                      title: my-stored-document.txt
+                      cached: false
+                type: object
+          description: OK
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+          description: Forbidden
+        "404":
+          description: Not Found
+        "500":
+          description: Internal Server Error
+      tags:
+      - Documents
+  /v1/document/create-folder:
+    post:
+      description: Create a new folder inside the documents storage directory.
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              example: "{\"name\":\"new-folder\"}"
+              type: string
+        description: Name of the folder to create.
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                example:
+                  success: true
+                  message: null
+                type: object
+          description: OK
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+          description: Forbidden
+        "500":
+          description: Internal Server Error
+      tags:
+      - Documents
+  /v1/document/remove-folder:
+    delete:
+      description: Remove a folder and all its contents from the documents storage
+        directory.
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/_v1_document_remove_folder_delete_request"
+        description: Name of the folder to remove.
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                example:
+                  success: true
+                  message: Folder removed successfully
+                type: object
+          description: OK
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+          description: Forbidden
+        "500":
+          description: Internal Server Error
+      tags:
+      - Documents
+  /v1/document/move-files:
+    post:
+      description: Move files within the documents storage directory.
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              example:
+                files:
+                - from: custom-documents/file.txt-fc4beeeb-e436-454d-8bb4-e5b8979cb48f.json
+                  to: folder/file.txt-fc4beeeb-e436-454d-8bb4-e5b8979cb48f.json
+              type: object
+        description: Array of objects containing source and destination paths of files
+          to move.
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                example:
+                  success: true
+                  message: null
+                type: object
+          description: OK
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+          description: Forbidden
+        "500":
+          description: Internal Server Error
+      tags:
+      - Documents
+  /v1/workspace/new:
+    post:
+      description: Create a new workspace
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            example:
+              name: My New Workspace
+              similarityThreshold: 0.7
+              openAiTemp: 0.7
+              openAiHistory: 20
+              openAiPrompt: Custom prompt for responses
+              queryRefusalResponse: Custom refusal message
+              chatMode: chat
+              topN: 4
+        description: JSON object containing workspace configuration.
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                example:
+                  workspace:
+                    id: 79
+                    name: Sample workspace
+                    slug: sample-workspace
+                    createdAt: 2023-08-17 00:45:03
+                    openAiTemp: null
+                    lastUpdatedAt: 2023-08-17 00:45:03
+                    openAiHistory: 20
+                    openAiPrompt: null
+                  message: Workspace created
+                type: object
+          description: OK
+        "400":
+          description: Bad Request
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+          description: Forbidden
+        "500":
+          description: Internal Server Error
+      tags:
+      - Workspaces
+  /v1/workspaces:
+    get:
+      description: List all current workspaces
+      parameters: []
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                example:
+                  workspaces:
+                  - id: 79
+                    name: Sample workspace
+                    slug: sample-workspace
+                    createdAt: 2023-08-17 00:45:03
+                    openAiTemp: null
+                    lastUpdatedAt: 2023-08-17 00:45:03
+                    openAiHistory: 20
+                    openAiPrompt: null
+                    threads: []
+                type: object
+          description: OK
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+          description: Forbidden
+        "500":
+          description: Internal Server Error
+      tags:
+      - Workspaces
+  /v1/workspace/{slug}:
+    delete:
+      description: Deletes a workspace by its slug.
+      parameters:
+      - description: Unique slug of workspace to delete
+        explode: false
+        in: path
+        name: slug
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+          description: Forbidden
+        "500":
+          description: Internal Server Error
+      tags:
+      - Workspaces
+    get:
+      description: Get a workspace by its unique slug.
+      parameters:
+      - description: Unique slug of workspace to find
+        explode: false
+        in: path
+        name: slug
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                example:
+                  workspace:
+                  - id: 79
+                    name: My workspace
+                    slug: my-workspace-123
+                    createdAt: 2023-08-17 00:45:03
+                    openAiTemp: null
+                    lastUpdatedAt: 2023-08-17 00:45:03
+                    openAiHistory: 20
+                    openAiPrompt: null
+                    documents: []
+                    threads: []
+                type: object
+          description: OK
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+          description: Forbidden
+        "500":
+          description: Internal Server Error
+      tags:
+      - Workspaces
+  /v1/workspace/{slug}/update:
+    post:
+      description: Update workspace settings by its unique slug.
+      parameters:
+      - description: Unique slug of workspace to find
+        explode: false
+        in: path
+        name: slug
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            example:
+              name: Updated Workspace Name
+              openAiTemp: 0.2
+              openAiHistory: 20
+              openAiPrompt: Respond to all inquires and questions in binary - do not
+                respond in any other format.
+        description: JSON object containing new settings to update a workspace. All
+          keys are optional and will not update unless provided
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                example:
+                  workspace:
+                    id: 79
+                    name: My workspace
+                    slug: my-workspace-123
+                    createdAt: 2023-08-17 00:45:03
+                    openAiTemp: null
+                    lastUpdatedAt: 2023-08-17 00:45:03
+                    openAiHistory: 20
+                    openAiPrompt: null
+                    documents: []
+                  message: null
+                type: object
+          description: OK
+        "400":
+          description: Bad Request
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+          description: Forbidden
+        "500":
+          description: Internal Server Error
+      tags:
+      - Workspaces
+  /v1/workspace/{slug}/chats:
+    get:
+      description: Get a workspaces chats regardless of user by its unique slug.
+      parameters:
+      - description: Unique slug of workspace to find
+        explode: false
+        in: path
+        name: slug
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: Optional apiSessionId to filter by
+        explode: true
+        in: query
+        name: apiSessionId
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: "Optional number of chat messages to return (default: 100)"
+        explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          type: integer
+        style: form
+      - description: Optional order of chat messages (asc or desc)
+        explode: true
+        in: query
+        name: orderBy
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                example:
+                  history:
+                  - role: user
+                    content: What is AnythingLLM?
+                    sentAt: 1692851630
+                  - role: assistant
+                    content: "AnythingLLM is a platform that allows you to convert\
+                      \ notes, PDFs, and other source materials into a chatbot. It\
+                      \ ensures privacy, cites its answers, and allows multiple people\
+                      \ to interact with the same documents simultaneously. It is\
+                      \ particularly useful for businesses to enhance the visibility\
+                      \ and readability of various written communications such as\
+                      \ SOPs, contracts, and sales calls. You can try it out with\
+                      \ a free trial to see if it meets your business needs."
+                    sources:
+                    - source: object about source document and snippets used
+                type: object
+          description: OK
+        "400":
+          description: Bad Request
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+          description: Forbidden
+        "500":
+          description: Internal Server Error
+      tags:
+      - Workspaces
+  /v1/workspace/{slug}/update-embeddings:
+    post:
+      description: Add or remove documents from a workspace by its unique slug.
+      parameters:
+      - description: Unique slug of workspace to find
+        explode: false
+        in: path
+        name: slug
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            example:
+              adds:
+              - custom-documents/my-pdf.pdf-hash.json
+              deletes:
+              - custom-documents/anythingllm.txt-hash.json
+        description: JSON object of additions and removals of documents to add to
+          update a workspace. The value should be the folder + filename with the exclusions
+          of the top-level documents path.
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                example:
+                  workspace:
+                    id: 79
+                    name: My workspace
+                    slug: my-workspace-123
+                    createdAt: 2023-08-17 00:45:03
+                    openAiTemp: null
+                    lastUpdatedAt: 2023-08-17 00:45:03
+                    openAiHistory: 20
+                    openAiPrompt: null
+                    documents: []
+                  message: null
+                type: object
+          description: OK
+        "400":
+          description: Bad Request
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+          description: Forbidden
+        "500":
+          description: Internal Server Error
+      tags:
+      - Workspaces
+  /v1/workspace/{slug}/update-pin:
+    post:
+      description: Add or remove pin from a document in a workspace by its unique
+        slug.
+      parameters:
+      - description: Unique slug of workspace to find
+        explode: false
+        in: path
+        name: slug
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            example:
+              docPath: custom-documents/my-pdf.pdf-hash.json
+              pinStatus: true
+        description: JSON object with the document path and pin status to update.
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                example:
+                  message: Pin status updated successfully
+                type: object
+          description: OK
+        "403":
+          description: Forbidden
+        "404":
+          description: Document not found
+        "500":
+          description: Internal Server Error
+      tags:
+      - Workspaces
+  /v1/workspace/{slug}/chat:
+    post:
+      description: Execute a chat with a workspace
+      parameters:
+      - explode: false
+        in: path
+        name: slug
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            example:
+              message: What is AnythingLLM?
+              mode: query | chat
+              sessionId: identifier-to-partition-chats-by-external-id
+              attachments:
+              - name: image.png
+                mime: image/png
+                contentString: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAA..."
+              reset: false
+        description: "Send a prompt to the workspace and the type of conversation\
+          \ (query or chat).<br/><b>Query:</b> Will not use LLM unless there are relevant\
+          \ sources from vectorDB & does not recall chat history.<br/><b>Chat:</b>\
+          \ Uses LLM general knowledge w/custom embeddings to produce output, uses\
+          \ rolling chat history."
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                example:
+                  id: chat-uuid
+                  type: abort | textResponse
+                  textResponse: Response to your query
+                  sources:
+                  - title: anythingllm.txt
+                    chunk: "This is a context chunk used in the answer of the prompt\
+                      \ by the LLM,"
+                  close: true
+                  error: null | text string of the failure mode.
+                type: object
+          description: OK
+        "400":
+          description: Bad Request
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+          description: Forbidden
+        "500":
+          description: Internal Server Error
+      tags:
+      - Workspaces
+  /v1/workspace/{slug}/stream-chat:
+    post:
+      description: Execute a streamable chat with a workspace
+      parameters:
+      - explode: false
+        in: path
+        name: slug
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            example:
+              message: What is AnythingLLM?
+              mode: query | chat
+              sessionId: identifier-to-partition-chats-by-external-id
+              attachments:
+              - name: image.png
+                mime: image/png
+                contentString: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAA..."
+              reset: false
+        description: "Send a prompt to the workspace and the type of conversation\
+          \ (query or chat).<br/><b>Query:</b> Will not use LLM unless there are relevant\
+          \ sources from vectorDB & does not recall chat history.<br/><b>Chat:</b>\
+          \ Uses LLM general knowledge w/custom embeddings to produce output, uses\
+          \ rolling chat history."
+        required: true
+      responses:
+        "200":
+          content:
+            text/event-stream:
+              schema:
+                example:
+                - id: uuid-123
+                  type: abort | textResponseChunk
+                  textResponse: First chunk
+                  sources: []
+                  close: false
+                  error: null | text string of the failure mode.
+                - id: uuid-123
+                  type: abort | textResponseChunk
+                  textResponse: chunk two
+                  sources: []
+                  close: false
+                  error: null | text string of the failure mode.
+                - id: uuid-123
+                  type: abort | textResponseChunk
+                  textResponse: final chunk of LLM output!
+                  sources:
+                  - title: anythingllm.txt
+                    chunk: This is a context chunk used in the answer of the prompt
+                      by the LLM. This will only return in the final chunk.
+                  close: true
+                  error: null | text string of the failure mode.
+                items:
+                  type: string
+                type: array
+          description: OK
+        "400":
+          description: Bad Request
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+          description: Forbidden
+      tags:
+      - Workspaces
+  /v1/workspace/{slug}/vector-search:
+    post:
+      description: Perform a vector similarity search in a workspace
+      parameters:
+      - description: Unique slug of workspace to search in
+        explode: false
+        in: path
+        name: slug
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            example:
+              query: What is the meaning of life?
+              topN: 4
+              scoreThreshold: 0.75
+        description: Query to perform vector search with and optional parameters
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                example:
+                  results:
+                  - id: 5a6bee0a-306c-47fc-942b-8ab9bf3899c4
+                    text: Document chunk content...
+                    metadata:
+                      url: file://document.txt
+                      title: document.txt
+                      author: no author specified
+                      description: no description found
+                      docSource: post:123456
+                      chunkSource: document.txt
+                      published: "12/1/2024, 11:39:39 AM"
+                      wordCount: 8
+                      tokenCount: 9
+                    distance: 0.541887640953064
+                    score: 0.45811235904693604
+                type: object
+          description: OK
+        "400":
+          description: Bad Request
+        "403":
+          description: Forbidden
+        "500":
+          description: Internal Server Error
+      tags:
+      - Workspaces
+  /v1/system/env-dump:
+    get:
+      description: Dump all settings to file storage
+      parameters: []
+      responses:
+        "200":
+          description: OK
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+          description: Forbidden
+        "500":
+          description: Internal Server Error
+      tags:
+      - System Settings
+  /v1/system:
+    get:
+      description: Get all current system settings that are defined.
+      parameters: []
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                example:
+                  settings:
+                    VectorDB: pinecone
+                    PineConeKey: true
+                    PineConeIndex: my-pinecone-index
+                    LLMProvider: azure
+                    '[KEY_NAME]': KEY_VALUE
+                type: object
+          description: OK
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+          description: Forbidden
+        "500":
+          description: Internal Server Error
+      tags:
+      - System Settings
+  /v1/system/vector-count:
+    get:
+      description: Number of all vectors in connected vector database
+      parameters: []
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                example:
+                  vectorCount: 5450
+                type: object
+          description: OK
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+          description: Forbidden
+        "500":
+          description: Internal Server Error
+      tags:
+      - System Settings
+  /v1/system/update-env:
+    post:
+      description: Update a system setting or preference.
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            example:
+              VectorDB: lancedb
+              AnotherKey: updatedValue
+        description: Key pair object that matches a valid setting and value. Get keys
+          from GET /v1/system or refer to codebase.
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                example:
+                  newValues:
+                    '[ENV_KEY]': Value
+                  error: "error goes here, otherwise null"
+                type: object
+          description: OK
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+          description: Forbidden
+        "500":
+          description: Internal Server Error
+      tags:
+      - System Settings
+  /v1/system/export-chats:
+    get:
+      description: Export all of the chats from the system in a known format. Output
+        depends on the type sent. Will be send with the correct header for the output.
+      parameters:
+      - description: "Export format jsonl, json, csv, jsonAlpaca"
+        explode: true
+        in: query
+        name: type
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                example:
+                - role: user
+                  content: What is AnythinglLM?
+                - role: assistant
+                  content: "AnythingLLM is a knowledge graph and vector database management\
+                    \ system built using NodeJS express server. It provides an interface\
+                    \ for handling all interactions, including vectorDB management\
+                    \ and LLM (Language Model) interactions."
+                type: object
+          description: OK
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+          description: Forbidden
+        "500":
+          description: Internal Server Error
+      tags:
+      - System Settings
+  /v1/system/remove-documents:
+    delete:
+      description: Permanently remove documents from the system.
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/_v1_system_remove_documents_delete_request"
+        description: Array of document names to be removed permanently.
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                example:
+                  success: true
+                  message: Documents removed successfully
+                type: object
+          description: Documents removed successfully.
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+          description: Forbidden
+        "500":
+          description: Internal Server Error
+      tags:
+      - System Settings
+  /v1/workspace/{slug}/thread/new:
+    post:
+      description: Create a new workspace thread
+      parameters:
+      - description: Unique slug of workspace
+        explode: false
+        in: path
+        name: slug
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            example:
+              userId: 1
+              name: Name
+              slug: thread-slug
+        description: "Optional userId associated with the thread, thread slug and\
+          \ thread name"
+        required: false
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                example:
+                  thread:
+                    id: 1
+                    name: Thread
+                    slug: thread-uuid
+                    user_id: 1
+                    workspace_id: 1
+                  message: null
+                type: object
+          description: OK
+        "400":
+          description: Bad Request
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+          description: Forbidden
+        "500":
+          description: Internal Server Error
+      tags:
+      - Workspace Threads
+  /v1/workspace/{slug}/thread/{threadSlug}/update:
+    post:
+      description: Update thread name by its unique slug.
+      parameters:
+      - description: Unique slug of workspace
+        explode: false
+        in: path
+        name: slug
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: Unique slug of thread
+        explode: false
+        in: path
+        name: threadSlug
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            example:
+              name: Updated Thread Name
+        description: JSON object containing new name to update the thread.
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                example:
+                  thread:
+                    id: 1
+                    name: Updated Thread Name
+                    slug: thread-uuid
+                    user_id: 1
+                    workspace_id: 1
+                  message: null
+                type: object
+          description: OK
+        "400":
+          description: Bad Request
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+          description: Forbidden
+        "500":
+          description: Internal Server Error
+      tags:
+      - Workspace Threads
+  /v1/workspace/{slug}/thread/{threadSlug}:
+    delete:
+      description: Delete a workspace thread
+      parameters:
+      - description: Unique slug of workspace
+        explode: false
+        in: path
+        name: slug
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: Unique slug of thread
+        explode: false
+        in: path
+        name: threadSlug
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          description: Thread deleted successfully
+        "400":
+          description: Bad Request
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+          description: Forbidden
+        "500":
+          description: Internal Server Error
+      tags:
+      - Workspace Threads
+  /v1/workspace/{slug}/thread/{threadSlug}/chats:
+    get:
+      description: Get chats for a workspace thread
+      parameters:
+      - description: Unique slug of workspace
+        explode: false
+        in: path
+        name: slug
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: Unique slug of thread
+        explode: false
+        in: path
+        name: threadSlug
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                example:
+                  history:
+                  - role: user
+                    content: What is AnythingLLM?
+                    sentAt: 1692851630
+                  - role: assistant
+                    content: "AnythingLLM is a platform that allows you to convert\
+                      \ notes, PDFs, and other source materials into a chatbot. It\
+                      \ ensures privacy, cites its answers, and allows multiple people\
+                      \ to interact with the same documents simultaneously. It is\
+                      \ particularly useful for businesses to enhance the visibility\
+                      \ and readability of various written communications such as\
+                      \ SOPs, contracts, and sales calls. You can try it out with\
+                      \ a free trial to see if it meets your business needs."
+                    sources:
+                    - source: object about source document and snippets used
+                type: object
+          description: OK
+        "400":
+          description: Bad Request
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+          description: Forbidden
+        "500":
+          description: Internal Server Error
+      tags:
+      - Workspace Threads
+  /v1/workspace/{slug}/thread/{threadSlug}/chat:
+    post:
+      description: Chat with a workspace thread
+      parameters:
+      - description: Unique slug of workspace
+        explode: false
+        in: path
+        name: slug
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: Unique slug of thread
+        explode: false
+        in: path
+        name: threadSlug
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            example:
+              message: What is AnythingLLM?
+              mode: query | chat
+              userId: 1
+              attachments:
+              - name: image.png
+                mime: image/png
+                contentString: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAA..."
+              reset: false
+        description: Send a prompt to the workspace thread and the type of conversation
+          (query or chat).
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                example:
+                  id: chat-uuid
+                  type: abort | textResponse
+                  textResponse: Response to your query
+                  sources:
+                  - title: anythingllm.txt
+                    chunk: This is a context chunk used in the answer of the prompt
+                      by the LLM.
+                  close: true
+                  error: null | text string of the failure mode.
+                type: object
+          description: OK
+        "400":
+          description: Bad Request
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+          description: Forbidden
+        "500":
+          description: Internal Server Error
+      tags:
+      - Workspace Threads
+  /v1/workspace/{slug}/thread/{threadSlug}/stream-chat:
+    post:
+      description: Stream chat with a workspace thread
+      parameters:
+      - description: Unique slug of workspace
+        explode: false
+        in: path
+        name: slug
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: Unique slug of thread
+        explode: false
+        in: path
+        name: threadSlug
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            example:
+              message: What is AnythingLLM?
+              mode: query | chat
+              userId: 1
+              attachments:
+              - name: image.png
+                mime: image/png
+                contentString: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAA..."
+              reset: false
+        description: Send a prompt to the workspace thread and the type of conversation
+          (query or chat).
+        required: true
+      responses:
+        "200":
+          content:
+            text/event-stream:
+              schema:
+                example:
+                - id: uuid-123
+                  type: abort | textResponseChunk
+                  textResponse: First chunk
+                  sources: []
+                  close: false
+                  error: null | text string of the failure mode.
+                - id: uuid-123
+                  type: abort | textResponseChunk
+                  textResponse: chunk two
+                  sources: []
+                  close: false
+                  error: null | text string of the failure mode.
+                - id: uuid-123
+                  type: abort | textResponseChunk
+                  textResponse: final chunk of LLM output!
+                  sources:
+                  - title: anythingllm.txt
+                    chunk: This is a context chunk used in the answer of the prompt
+                      by the LLM. This will only return in the final chunk.
+                  close: true
+                  error: null | text string of the failure mode.
+                items:
+                  type: string
+                type: array
+          description: OK
+        "400":
+          description: Bad Request
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+          description: Forbidden
+      tags:
+      - Workspace Threads
+  /v1/users:
+    get:
+      description: List all users
+      parameters: []
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                example:
+                  users:
+                  - id: 1
+                    username: john_doe
+                    role: admin
+                  - id: 2
+                    username: jane_smith
+                    role: default
+                type: object
+          description: OK
+        "401":
+          description: Instance is not in Multi-User mode. Permission denied.
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+          description: Forbidden
+        "500":
+          description: Internal Server Error
+      tags:
+      - User Management
+  /v1/users/{id}/issue-auth-token:
+    get:
+      description: Issue a temporary auth token for a user
+      parameters:
+      - description: The ID of the user to issue a temporary auth token for
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                example:
+                  token: "1234567890"
+                  loginPath: /sso/simple?token=1234567890
+                type: object
+          description: OK
+        "401":
+          description: Instance is not in Multi-User mode. Permission denied.
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+          description: Forbidden
+        "404":
+          description: Not Found
+        "500":
+          description: Internal Server Error
+      tags:
+      - User Management
+  /v1/openai/models:
+    get:
+      description: Get all available "models" which are workspaces you can use for
+        chatting.
+      parameters: []
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                example:
+                  models:
+                  - name: Sample workspace
+                    model: sample-workspace
+                    llm:
+                      provider: ollama
+                      model: llama3:8b
+                  - name: Second workspace
+                    model: workspace-2
+                    llm:
+                      provider: openai
+                      model: gpt-3.5-turbo
+                type: object
+          description: OK
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+          description: Forbidden
+        "500":
+          description: Internal Server Error
+      tags:
+      - OpenAI Compatible Endpoints
+  /v1/openai/chat/completions:
+    post:
+      description: Execute a chat with a workspace with OpenAI compatibility. Supports
+        streaming as well. Model must be a workspace slug from /models.
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            example:
+              messages:
+              - role: system
+                content: You are a helpful assistant
+              - role: user
+                content: What is AnythingLLM?
+              - role: assistant
+                content: AnythingLLM is....
+              - role: user
+                content: Follow up question...
+              model: sample-workspace
+              stream: true
+              temperature: 0.7
+        description: Send a prompt to the workspace with full use of documents as
+          if sending a chat in AnythingLLM. Only supports some values of OpenAI API.
+          See example below.
+        required: true
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+        "401":
+          description: Unauthorized
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+          description: Forbidden
+        "500":
+          description: Internal Server Error
+      tags:
+      - OpenAI Compatible Endpoints
+  /v1/openai/embeddings:
+    post:
+      description: Get the embeddings of any arbitrary text string. This will use
+        the embedder provider set in the system. Please ensure the token length of
+        each string fits within the context of your embedder model.
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            example:
+              input:
+              - This is my first string to embed
+              - This is my second string to embed
+              model: null
+        description: "The input string(s) to be embedded. If the text is too long\
+          \ for the embedder model context, it will fail to embed. The vector and\
+          \ associated chunk metadata will be returned in the array order provided"
+        required: true
+      responses:
+        "200":
+          description: OK
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+          description: Forbidden
+        "500":
+          description: Internal Server Error
+      tags:
+      - OpenAI Compatible Endpoints
+  /v1/openai/vector_stores:
+    get:
+      description: List all the vector database collections connected to AnythingLLM.
+        These are essentially workspaces but return their unique vector db identifier
+        - this is the same as the workspace slug.
+      parameters: []
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                example:
+                  data:
+                  - id: slug-here
+                    object: vector_store
+                    name: My workspace
+                    file_counts:
+                      total: 3
+                    provider: LanceDB
+                type: object
+          description: OK
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+          description: Forbidden
+        "500":
+          description: Internal Server Error
+      tags:
+      - OpenAI Compatible Endpoints
+  /v1/embed:
+    get:
+      description: List all active embeds
+      parameters: []
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                example:
+                  embeds:
+                  - id: 1
+                    uuid: embed-uuid-1
+                    enabled: true
+                    chat_mode: query
+                    createdAt: 2023-04-01T12:00:00Z
+                    workspace:
+                      id: 1
+                      name: Workspace 1
+                    chat_count: 10
+                  - id: 2
+                    uuid: embed-uuid-2
+                    enabled: false
+                    chat_mode: chat
+                    createdAt: 2023-04-02T14:30:00Z
+                    workspace:
+                      id: 1
+                      name: Workspace 1
+                    chat_count: 10
+                type: object
+          description: OK
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+          description: Forbidden
+        "500":
+          description: Internal Server Error
+      tags:
+      - Embed
+  /v1/embed/{embedUuid}/chats:
+    get:
+      description: Get all chats for a specific embed
+      parameters:
+      - description: UUID of the embed
+        explode: false
+        in: path
+        name: embedUuid
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                example:
+                  chats:
+                  - id: 1
+                    session_id: session-uuid-1
+                    prompt: Hello
+                    response: Hi there!
+                    createdAt: 2023-04-01T12:00:00Z
+                  - id: 2
+                    session_id: session-uuid-2
+                    prompt: How are you?
+                    response: "I'm doing well, thank you!"
+                    createdAt: 2023-04-02T14:30:00Z
+                type: object
+          description: OK
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+          description: Forbidden
+        "404":
+          description: Embed not found
+        "500":
+          description: Internal Server Error
+      tags:
+      - Embed
+  /v1/embed/{embedUuid}/chats/{sessionUuid}:
+    get:
+      description: Get chats for a specific embed and session
+      parameters:
+      - description: UUID of the embed
+        explode: false
+        in: path
+        name: embedUuid
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: UUID of the session
+        explode: false
+        in: path
+        name: sessionUuid
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                example:
+                  chats:
+                  - id: 1
+                    prompt: Hello
+                    response: Hi there!
+                    createdAt: 2023-04-01T12:00:00Z
+                type: object
+          description: OK
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+          description: Forbidden
+        "404":
+          description: Embed or session not found
+        "500":
+          description: Internal Server Error
+      tags:
+      - Embed
+  /v1/embed/new:
+    post:
+      description: Create a new embed configuration
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              example:
+                workspace_slug: workspace-slug-1
+                chat_mode: chat
+                allowlist_domains:
+                - example.com
+                allow_model_override: false
+                allow_temperature_override: false
+                allow_prompt_override: false
+                max_chats_per_day: 100
+                max_chats_per_session: 10
+              type: object
+        description: JSON object containing embed configuration details
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                example:
+                  embed:
+                    id: 1
+                    uuid: embed-uuid-1
+                    enabled: true
+                    chat_mode: chat
+                    allowlist_domains:
+                    - example.com
+                    allow_model_override: false
+                    allow_temperature_override: false
+                    allow_prompt_override: false
+                    max_chats_per_day: 100
+                    max_chats_per_session: 10
+                    createdAt: 2023-04-01T12:00:00Z
+                    workspace_slug: workspace-slug-1
+                  error: null
+                type: object
+          description: OK
+        "400":
+          description: Bad Request
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+          description: Forbidden
+        "404":
+          description: Workspace not found
+        "500":
+          description: Internal Server Error
+      tags:
+      - Embed
+  /v1/embed/{embedUuid}:
+    delete:
+      description: Delete an existing embed configuration
+      parameters:
+      - description: UUID of the embed to delete
+        explode: false
+        in: path
+        name: embedUuid
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                example:
+                  success: true
+                  error: null
+                type: object
+          description: OK
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+          description: Forbidden
+        "404":
+          description: Embed not found
+        "500":
+          description: Internal Server Error
+      tags:
+      - Embed
+    post:
+      description: Update an existing embed configuration
+      parameters:
+      - description: UUID of the embed to update
+        explode: false
+        in: path
+        name: embedUuid
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              example:
+                enabled: true
+                chat_mode: chat
+                allowlist_domains:
+                - example.com
+                allow_model_override: false
+                allow_temperature_override: false
+                allow_prompt_override: false
+                max_chats_per_day: 100
+                max_chats_per_session: 10
+              type: object
+        description: JSON object containing embed configuration updates
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                example:
+                  success: true
+                  error: null
+                type: object
+          description: OK
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/InvalidAPIKey"
+          description: Forbidden
+        "404":
+          description: Embed not found
+        "500":
+          description: Internal Server Error
+      tags:
+      - Embed
+components:
+  schemas:
+    InvalidAPIKey:
+      example:
+        message: Invalid API Key
+      properties:
+        message:
+          example: Invalid API Key
+          type: string
+      type: object
+      xml:
+        name: InvalidAPIKey
+    _v1_document_upload_post_request:
+      properties:
+        file:
+          description: The file to upload
+          format: binary
+          type: string
+        addToWorkspaces:
+          description: "comma-separated text-string of workspace slugs to embed the\
+            \ document into post-upload. eg: workspace1,workspace2"
+          type: string
+      required:
+      - file
+      type: object
+    _v1_document_remove_folder_delete_request:
+      properties:
+        name:
+          example: my-folder
+          type: string
+      type: object
+    _v1_system_remove_documents_delete_request:
+      properties:
+        names:
+          example:
+          - custom-documents/file.txt-fc4beeeb-e436-454d-8bb4-e5b8979cb48f.json
+          items:
+            type: string
+          type: array
+      type: object
+  securitySchemes:
+    BearerAuth:
+      bearerFormat: JWT
+      scheme: bearer
+      type: http
