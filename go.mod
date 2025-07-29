@@ -1,6 +1,6 @@
-module github.com/GIT_USER_ID/GIT_REPO_ID
+module github.com/SchSeba/anythingllm-go-sdk
 
-go 1.18
+go 1.24.0
 
 require (
 )
