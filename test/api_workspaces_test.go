@@ -11,10 +11,10 @@ package openapi
 
 import (
 	"context"
+	openapiclient "github.com/SchSeba/anythingllm-go-sdk"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"testing"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
 )
 
 func Test_openapi_WorkspacesAPIService(t *testing.T) {
@@ -24,7 +24,7 @@ func Test_openapi_WorkspacesAPIService(t *testing.T) {
 
 	t.Run("Test WorkspacesAPIService V1WorkspaceNewPost", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
+		t.Skip("skip test") // remove to run test
 
 		resp, httpRes, err := apiClient.WorkspacesAPI.V1WorkspaceNewPost(context.Background()).Execute()
 
@@ -36,7 +36,7 @@ func Test_openapi_WorkspacesAPIService(t *testing.T) {
 
 	t.Run("Test WorkspacesAPIService V1WorkspaceSlugChatPost", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
+		t.Skip("skip test") // remove to run test
 
 		var slug string
 
@@ -50,7 +50,7 @@ func Test_openapi_WorkspacesAPIService(t *testing.T) {
 
 	t.Run("Test WorkspacesAPIService V1WorkspaceSlugChatsGet", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
+		t.Skip("skip test") // remove to run test
 
 		var slug string
 
@@ -64,7 +64,7 @@ func Test_openapi_WorkspacesAPIService(t *testing.T) {
 
 	t.Run("Test WorkspacesAPIService V1WorkspaceSlugDelete", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
+		t.Skip("skip test") // remove to run test
 
 		var slug string
 
@@ -77,7 +77,7 @@ func Test_openapi_WorkspacesAPIService(t *testing.T) {
 
 	t.Run("Test WorkspacesAPIService V1WorkspaceSlugGet", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
+		t.Skip("skip test") // remove to run test
 
 		var slug string
 
@@ -91,7 +91,7 @@ func Test_openapi_WorkspacesAPIService(t *testing.T) {
 
 	t.Run("Test WorkspacesAPIService V1WorkspaceSlugStreamChatPost", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
+		t.Skip("skip test") // remove to run test
 
 		var slug string
 
@@ -105,7 +105,7 @@ func Test_openapi_WorkspacesAPIService(t *testing.T) {
 
 	t.Run("Test WorkspacesAPIService V1WorkspaceSlugUpdateEmbeddingsPost", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
+		t.Skip("skip test") // remove to run test
 
 		var slug string
 
@@ -119,7 +119,7 @@ func Test_openapi_WorkspacesAPIService(t *testing.T) {
 
 	t.Run("Test WorkspacesAPIService V1WorkspaceSlugUpdatePinPost", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
+		t.Skip("skip test") // remove to run test
 
 		var slug string
 
@@ -133,7 +133,7 @@ func Test_openapi_WorkspacesAPIService(t *testing.T) {
 
 	t.Run("Test WorkspacesAPIService V1WorkspaceSlugUpdatePost", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
+		t.Skip("skip test") // remove to run test
 
 		var slug string
 
@@ -147,7 +147,7 @@ func Test_openapi_WorkspacesAPIService(t *testing.T) {
 
 	t.Run("Test WorkspacesAPIService V1WorkspaceSlugVectorSearchPost", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
+		t.Skip("skip test") // remove to run test
 
 		var slug string
 
@@ -161,7 +161,7 @@ func Test_openapi_WorkspacesAPIService(t *testing.T) {
 
 	t.Run("Test WorkspacesAPIService V1WorkspacesGet", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
+		t.Skip("skip test") // remove to run test
 
 		resp, httpRes, err := apiClient.WorkspacesAPI.V1WorkspacesGet(context.Background()).Execute()
 

@@ -11,10 +11,10 @@ package openapi
 
 import (
 	"context"
+	openapiclient "github.com/SchSeba/anythingllm-go-sdk"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"testing"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
 )
 
 func Test_openapi_EmbedAPIService(t *testing.T) {
@@ -24,7 +24,7 @@ func Test_openapi_EmbedAPIService(t *testing.T) {
 
 	t.Run("Test EmbedAPIService V1EmbedEmbedUuidChatsGet", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
+		t.Skip("skip test") // remove to run test
 
 		var embedUuid string
 
@@ -38,7 +38,7 @@ func Test_openapi_EmbedAPIService(t *testing.T) {
 
 	t.Run("Test EmbedAPIService V1EmbedEmbedUuidChatsSessionUuidGet", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
+		t.Skip("skip test") // remove to run test
 
 		var embedUuid string
 		var sessionUuid string
@@ -53,7 +53,7 @@ func Test_openapi_EmbedAPIService(t *testing.T) {
 
 	t.Run("Test EmbedAPIService V1EmbedEmbedUuidDelete", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
+		t.Skip("skip test") // remove to run test
 
 		var embedUuid string
 
@@ -67,7 +67,7 @@ func Test_openapi_EmbedAPIService(t *testing.T) {
 
 	t.Run("Test EmbedAPIService V1EmbedEmbedUuidPost", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
+		t.Skip("skip test") // remove to run test
 
 		var embedUuid string
 
@@ -81,7 +81,7 @@ func Test_openapi_EmbedAPIService(t *testing.T) {
 
 	t.Run("Test EmbedAPIService V1EmbedGet", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
+		t.Skip("skip test") // remove to run test
 
 		resp, httpRes, err := apiClient.EmbedAPI.V1EmbedGet(context.Background()).Execute()
 
@@ -93,7 +93,7 @@ func Test_openapi_EmbedAPIService(t *testing.T) {
 
 	t.Run("Test EmbedAPIService V1EmbedNewPost", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
+		t.Skip("skip test") // remove to run test
 
 		resp, httpRes, err := apiClient.EmbedAPI.V1EmbedNewPost(context.Background()).Execute()
 

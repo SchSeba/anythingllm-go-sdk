@@ -11,10 +11,10 @@ package openapi
 
 import (
 	"context"
+	openapiclient "github.com/SchSeba/anythingllm-go-sdk"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"testing"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
 )
 
 func Test_openapi_AdminAPIService(t *testing.T) {
@@ -24,7 +24,7 @@ func Test_openapi_AdminAPIService(t *testing.T) {
 
 	t.Run("Test AdminAPIService V1AdminInviteIdDelete", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
+		t.Skip("skip test") // remove to run test
 
 		var id string
 
@@ -38,7 +38,7 @@ func Test_openapi_AdminAPIService(t *testing.T) {
 
 	t.Run("Test AdminAPIService V1AdminInviteNewPost", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
+		t.Skip("skip test") // remove to run test
 
 		resp, httpRes, err := apiClient.AdminAPI.V1AdminInviteNewPost(context.Background()).Execute()
 
@@ -50,7 +50,7 @@ func Test_openapi_AdminAPIService(t *testing.T) {
 
 	t.Run("Test AdminAPIService V1AdminInvitesGet", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
+		t.Skip("skip test") // remove to run test
 
 		resp, httpRes, err := apiClient.AdminAPI.V1AdminInvitesGet(context.Background()).Execute()
 
@@ -62,7 +62,7 @@ func Test_openapi_AdminAPIService(t *testing.T) {
 
 	t.Run("Test AdminAPIService V1AdminIsMultiUserModeGet", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
+		t.Skip("skip test") // remove to run test
 
 		resp, httpRes, err := apiClient.AdminAPI.V1AdminIsMultiUserModeGet(context.Background()).Execute()
 
@@ -74,7 +74,7 @@ func Test_openapi_AdminAPIService(t *testing.T) {
 
 	t.Run("Test AdminAPIService V1AdminPreferencesPost", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
+		t.Skip("skip test") // remove to run test
 
 		resp, httpRes, err := apiClient.AdminAPI.V1AdminPreferencesPost(context.Background()).Execute()
 
@@ -86,7 +86,7 @@ func Test_openapi_AdminAPIService(t *testing.T) {
 
 	t.Run("Test AdminAPIService V1AdminUsersGet", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
+		t.Skip("skip test") // remove to run test
 
 		resp, httpRes, err := apiClient.AdminAPI.V1AdminUsersGet(context.Background()).Execute()
 
@@ -98,7 +98,7 @@ func Test_openapi_AdminAPIService(t *testing.T) {
 
 	t.Run("Test AdminAPIService V1AdminUsersIdDelete", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
+		t.Skip("skip test") // remove to run test
 
 		var id string
 
@@ -112,7 +112,7 @@ func Test_openapi_AdminAPIService(t *testing.T) {
 
 	t.Run("Test AdminAPIService V1AdminUsersIdPost", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
+		t.Skip("skip test") // remove to run test
 
 		var id string
 
@@ -126,7 +126,7 @@ func Test_openapi_AdminAPIService(t *testing.T) {
 
 	t.Run("Test AdminAPIService V1AdminUsersNewPost", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
+		t.Skip("skip test") // remove to run test
 
 		resp, httpRes, err := apiClient.AdminAPI.V1AdminUsersNewPost(context.Background()).Execute()
 
@@ -138,7 +138,7 @@ func Test_openapi_AdminAPIService(t *testing.T) {
 
 	t.Run("Test AdminAPIService V1AdminWorkspaceChatsPost", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
+		t.Skip("skip test") // remove to run test
 
 		resp, httpRes, err := apiClient.AdminAPI.V1AdminWorkspaceChatsPost(context.Background()).Execute()
 
@@ -150,7 +150,7 @@ func Test_openapi_AdminAPIService(t *testing.T) {
 
 	t.Run("Test AdminAPIService V1AdminWorkspacesWorkspaceIdUpdateUsersPost", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
+		t.Skip("skip test") // remove to run test
 
 		var workspaceId string
 
@@ -164,7 +164,7 @@ func Test_openapi_AdminAPIService(t *testing.T) {
 
 	t.Run("Test AdminAPIService V1AdminWorkspacesWorkspaceIdUsersGet", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
+		t.Skip("skip test") // remove to run test
 
 		var workspaceId string
 
@@ -178,7 +178,7 @@ func Test_openapi_AdminAPIService(t *testing.T) {
 
 	t.Run("Test AdminAPIService V1AdminWorkspacesWorkspaceSlugManageUsersPost", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
+		t.Skip("skip test") // remove to run test
 
 		var workspaceSlug string
 

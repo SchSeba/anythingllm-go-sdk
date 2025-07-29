@@ -11,10 +11,10 @@ package openapi
 
 import (
 	"context"
+	openapiclient "github.com/SchSeba/anythingllm-go-sdk"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"testing"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
 )
 
 func Test_openapi_DocumentsAPIService(t *testing.T) {
@@ -24,7 +24,7 @@ func Test_openapi_DocumentsAPIService(t *testing.T) {
 
 	t.Run("Test DocumentsAPIService V1DocumentAcceptedFileTypesGet", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
+		t.Skip("skip test") // remove to run test
 
 		resp, httpRes, err := apiClient.DocumentsAPI.V1DocumentAcceptedFileTypesGet(context.Background()).Execute()
 
@@ -36,7 +36,7 @@ func Test_openapi_DocumentsAPIService(t *testing.T) {
 
 	t.Run("Test DocumentsAPIService V1DocumentCreateFolderPost", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
+		t.Skip("skip test") // remove to run test
 
 		resp, httpRes, err := apiClient.DocumentsAPI.V1DocumentCreateFolderPost(context.Background()).Execute()
 
@@ -48,7 +48,7 @@ func Test_openapi_DocumentsAPIService(t *testing.T) {
 
 	t.Run("Test DocumentsAPIService V1DocumentDocNameGet", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
+		t.Skip("skip test") // remove to run test
 
 		var docName string
 
@@ -62,7 +62,7 @@ func Test_openapi_DocumentsAPIService(t *testing.T) {
 
 	t.Run("Test DocumentsAPIService V1DocumentMetadataSchemaGet", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
+		t.Skip("skip test") // remove to run test
 
 		resp, httpRes, err := apiClient.DocumentsAPI.V1DocumentMetadataSchemaGet(context.Background()).Execute()
 
@@ -74,7 +74,7 @@ func Test_openapi_DocumentsAPIService(t *testing.T) {
 
 	t.Run("Test DocumentsAPIService V1DocumentMoveFilesPost", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
+		t.Skip("skip test") // remove to run test
 
 		resp, httpRes, err := apiClient.DocumentsAPI.V1DocumentMoveFilesPost(context.Background()).Execute()
 
@@ -86,7 +86,7 @@ func Test_openapi_DocumentsAPIService(t *testing.T) {
 
 	t.Run("Test DocumentsAPIService V1DocumentRawTextPost", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
+		t.Skip("skip test") // remove to run test
 
 		resp, httpRes, err := apiClient.DocumentsAPI.V1DocumentRawTextPost(context.Background()).Execute()
 
@@ -98,7 +98,7 @@ func Test_openapi_DocumentsAPIService(t *testing.T) {
 
 	t.Run("Test DocumentsAPIService V1DocumentRemoveFolderDelete", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
+		t.Skip("skip test") // remove to run test
 
 		resp, httpRes, err := apiClient.DocumentsAPI.V1DocumentRemoveFolderDelete(context.Background()).Execute()
 
@@ -110,7 +110,7 @@ func Test_openapi_DocumentsAPIService(t *testing.T) {
 
 	t.Run("Test DocumentsAPIService V1DocumentUploadFolderNamePost", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
+		t.Skip("skip test") // remove to run test
 
 		var folderName string
 
@@ -124,7 +124,7 @@ func Test_openapi_DocumentsAPIService(t *testing.T) {
 
 	t.Run("Test DocumentsAPIService V1DocumentUploadLinkPost", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
+		t.Skip("skip test") // remove to run test
 
 		resp, httpRes, err := apiClient.DocumentsAPI.V1DocumentUploadLinkPost(context.Background()).Execute()
 
@@ -136,7 +136,7 @@ func Test_openapi_DocumentsAPIService(t *testing.T) {
 
 	t.Run("Test DocumentsAPIService V1DocumentUploadPost", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
+		t.Skip("skip test") // remove to run test
 
 		resp, httpRes, err := apiClient.DocumentsAPI.V1DocumentUploadPost(context.Background()).Execute()
 
@@ -148,7 +148,7 @@ func Test_openapi_DocumentsAPIService(t *testing.T) {
 
 	t.Run("Test DocumentsAPIService V1DocumentsFolderFolderNameGet", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
+		t.Skip("skip test") // remove to run test
 
 		var folderName string
 
@@ -162,7 +162,7 @@ func Test_openapi_DocumentsAPIService(t *testing.T) {
 
 	t.Run("Test DocumentsAPIService V1DocumentsGet", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
+		t.Skip("skip test") // remove to run test
 
 		resp, httpRes, err := apiClient.DocumentsAPI.V1DocumentsGet(context.Background()).Execute()
 

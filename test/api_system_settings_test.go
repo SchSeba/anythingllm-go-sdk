@@ -11,10 +11,10 @@ package openapi
 
 import (
 	"context"
+	openapiclient "github.com/SchSeba/anythingllm-go-sdk"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"testing"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
 )
 
 func Test_openapi_SystemSettingsAPIService(t *testing.T) {
@@ -24,7 +24,7 @@ func Test_openapi_SystemSettingsAPIService(t *testing.T) {
 
 	t.Run("Test SystemSettingsAPIService V1SystemEnvDumpGet", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
+		t.Skip("skip test") // remove to run test
 
 		httpRes, err := apiClient.SystemSettingsAPI.V1SystemEnvDumpGet(context.Background()).Execute()
 
@@ -35,7 +35,7 @@ func Test_openapi_SystemSettingsAPIService(t *testing.T) {
 
 	t.Run("Test SystemSettingsAPIService V1SystemExportChatsGet", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
+		t.Skip("skip test") // remove to run test
 
 		resp, httpRes, err := apiClient.SystemSettingsAPI.V1SystemExportChatsGet(context.Background()).Execute()
 
@@ -47,7 +47,7 @@ func Test_openapi_SystemSettingsAPIService(t *testing.T) {
 
 	t.Run("Test SystemSettingsAPIService V1SystemGet", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
+		t.Skip("skip test") // remove to run test
 
 		resp, httpRes, err := apiClient.SystemSettingsAPI.V1SystemGet(context.Background()).Execute()
 
@@ -59,7 +59,7 @@ func Test_openapi_SystemSettingsAPIService(t *testing.T) {
 
 	t.Run("Test SystemSettingsAPIService V1SystemRemoveDocumentsDelete", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
+		t.Skip("skip test") // remove to run test
 
 		resp, httpRes, err := apiClient.SystemSettingsAPI.V1SystemRemoveDocumentsDelete(context.Background()).Execute()
 
@@ -71,7 +71,7 @@ func Test_openapi_SystemSettingsAPIService(t *testing.T) {
 
 	t.Run("Test SystemSettingsAPIService V1SystemUpdateEnvPost", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
+		t.Skip("skip test") // remove to run test
 
 		resp, httpRes, err := apiClient.SystemSettingsAPI.V1SystemUpdateEnvPost(context.Background()).Execute()
 
@@ -83,7 +83,7 @@ func Test_openapi_SystemSettingsAPIService(t *testing.T) {
 
 	t.Run("Test SystemSettingsAPIService V1SystemVectorCountGet", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
+		t.Skip("skip test") // remove to run test
 
 		resp, httpRes, err := apiClient.SystemSettingsAPI.V1SystemVectorCountGet(context.Background()).Execute()
 
