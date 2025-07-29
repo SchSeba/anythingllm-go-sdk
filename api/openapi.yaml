@@ -2095,6 +2095,8 @@ paths:
                 mime: image/png
                 contentString: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAA..."
               reset: false
+            schema:
+              $ref: "#/components/schemas/_v1_workspace__slug__thread__threadSlug__chat_post_request"
         description: Send a prompt to the workspace thread and the type of conversation
           (query or chat).
         required: true
@@ -2162,6 +2164,8 @@ paths:
                 mime: image/png
                 contentString: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAA..."
               reset: false
+            schema:
+              $ref: "#/components/schemas/_v1_workspace__slug__thread__threadSlug__chat_post_request"
         description: Send a prompt to the workspace thread and the type of conversation
           (query or chat).
         required: true
@@ -2760,6 +2764,51 @@ components:
           items:
             type: string
           type: array
+      type: object
+    _v1_workspace__slug__thread__threadSlug__chat_post_request_attachments_inner:
+      properties:
+        name:
+          description: Name of the attachment file
+          type: string
+        mime:
+          description: MIME type of the attachment
+          type: string
+        contentString:
+          description: Base64 encoded content of the attachment
+          type: string
+      required:
+      - contentString
+      - mime
+      - name
+      type: object
+    _v1_workspace__slug__thread__threadSlug__chat_post_request:
+      properties:
+        message:
+          description: The message/prompt to send to the workspace thread
+          type: string
+        mode:
+          default: query
+          description: The type of conversation - query or chat
+          enum:
+          - query
+          - chat
+          type: string
+        userId:
+          description: Optional user ID associated with the chat
+          nullable: true
+          type: integer
+        attachments:
+          default: []
+          description: Optional array of file attachments
+          items:
+            $ref: "#/components/schemas/_v1_workspace__slug__thread__threadSlug__chat_post_request_attachments_inner"
+          type: array
+        reset:
+          default: false
+          description: Whether to reset the conversation thread
+          type: boolean
+      required:
+      - message
       type: object
   securitySchemes:
     BearerAuth:

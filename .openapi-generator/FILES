@@ -1,5 +1,4 @@
 .gitignore
-.openapi-generator-ignore
 .travis.yml
 README.md
 api/openapi.yaml
@@ -24,6 +23,8 @@ docs/SystemSettingsAPI.md
 docs/UserManagementAPI.md
 docs/V1DocumentRemoveFolderDeleteRequest.md
 docs/V1SystemRemoveDocumentsDeleteRequest.md
+docs/V1WorkspaceSlugThreadThreadSlugChatPostRequest.md
+docs/V1WorkspaceSlugThreadThreadSlugChatPostRequestAttachmentsInner.md
 docs/WorkspaceThreadsAPI.md
 docs/WorkspacesAPI.md
 git_push.sh
@@ -31,15 +32,8 @@ go.mod
 go.sum
 model__v1_document_remove_folder_delete_request.go
 model__v1_system_remove_documents_delete_request.go
+model__v1_workspace__slug__thread__thread_slug__chat_post_request.go
+model__v1_workspace__slug__thread__thread_slug__chat_post_request_attachments_inner.go
 model_invalid_api_key.go
 response.go
-test/api_admin_test.go
-test/api_authentication_test.go
-test/api_documents_test.go
-test/api_embed_test.go
-test/api_open_ai_compatible_endpoints_test.go
-test/api_system_settings_test.go
-test/api_user_management_test.go
-test/api_workspace_threads_test.go
-test/api_workspaces_test.go
 utils.go

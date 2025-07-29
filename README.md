@@ -1,4 +1,4 @@
-# Go API client for AnythingLLM
+# Go API client for openapi
 
 API endpoints that enable programmatic reading, writing, and updating of your AnythingLLM instance. UI supplied by Swagger.io.
 
@@ -22,7 +22,7 @@ go get golang.org/x/net/context
 Put the package under your project folder and add the following in import:
 
 ```go
-import openapi "github.com/SchSeba/anythingllm-go-sdk"
+import openapi "github.com/GIT_USER_ID/GIT_REPO_ID"
 ```
 
 To use a proxy, set the environment variable `HTTP_PROXY`:
@@ -146,6 +146,8 @@ Class | Method | HTTP request | Description
  - [InvalidAPIKey](docs/InvalidAPIKey.md)
  - [V1DocumentRemoveFolderDeleteRequest](docs/V1DocumentRemoveFolderDeleteRequest.md)
  - [V1SystemRemoveDocumentsDeleteRequest](docs/V1SystemRemoveDocumentsDeleteRequest.md)
+ - [V1WorkspaceSlugThreadThreadSlugChatPostRequest](docs/V1WorkspaceSlugThreadThreadSlugChatPostRequest.md)
+ - [V1WorkspaceSlugThreadThreadSlugChatPostRequestAttachmentsInner](docs/V1WorkspaceSlugThreadThreadSlugChatPostRequestAttachmentsInner.md)
 
 
 ## Documentation For Authorization

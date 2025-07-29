@@ -142,6 +142,13 @@ type ApiV1WorkspaceSlugThreadThreadSlugChatPostRequest struct {
 	ApiService *WorkspaceThreadsAPIService
 	slug string
 	threadSlug string
+	v1WorkspaceSlugThreadThreadSlugChatPostRequest *V1WorkspaceSlugThreadThreadSlugChatPostRequest
+}
+
+// Send a prompt to the workspace thread and the type of conversation (query or chat).
+func (r ApiV1WorkspaceSlugThreadThreadSlugChatPostRequest) V1WorkspaceSlugThreadThreadSlugChatPostRequest(v1WorkspaceSlugThreadThreadSlugChatPostRequest V1WorkspaceSlugThreadThreadSlugChatPostRequest) ApiV1WorkspaceSlugThreadThreadSlugChatPostRequest {
+	r.v1WorkspaceSlugThreadThreadSlugChatPostRequest = &v1WorkspaceSlugThreadThreadSlugChatPostRequest
+	return r
 }
 
 func (r ApiV1WorkspaceSlugThreadThreadSlugChatPostRequest) Execute() (map[string]interface{}, *http.Response, error) {
@@ -189,6 +196,9 @@ func (a *WorkspaceThreadsAPIService) V1WorkspaceSlugThreadThreadSlugChatPostExec
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
+	if r.v1WorkspaceSlugThreadThreadSlugChatPostRequest == nil {
+		return localVarReturnValue, nil, reportError("v1WorkspaceSlugThreadThreadSlugChatPostRequest is required and must be specified")
+	}
 
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{"application/json"}
@@ -207,6 +217,8 @@ func (a *WorkspaceThreadsAPIService) V1WorkspaceSlugThreadThreadSlugChatPostExec
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
+	// body params
+	localVarPostBody = r.v1WorkspaceSlugThreadThreadSlugChatPostRequest
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
@@ -485,6 +497,13 @@ type ApiV1WorkspaceSlugThreadThreadSlugStreamChatPostRequest struct {
 	ApiService *WorkspaceThreadsAPIService
 	slug string
 	threadSlug string
+	v1WorkspaceSlugThreadThreadSlugChatPostRequest *V1WorkspaceSlugThreadThreadSlugChatPostRequest
+}
+
+// Send a prompt to the workspace thread and the type of conversation (query or chat).
+func (r ApiV1WorkspaceSlugThreadThreadSlugStreamChatPostRequest) V1WorkspaceSlugThreadThreadSlugChatPostRequest(v1WorkspaceSlugThreadThreadSlugChatPostRequest V1WorkspaceSlugThreadThreadSlugChatPostRequest) ApiV1WorkspaceSlugThreadThreadSlugStreamChatPostRequest {
+	r.v1WorkspaceSlugThreadThreadSlugChatPostRequest = &v1WorkspaceSlugThreadThreadSlugChatPostRequest
+	return r
 }
 
 func (r ApiV1WorkspaceSlugThreadThreadSlugStreamChatPostRequest) Execute() ([]string, *http.Response, error) {
@@ -532,6 +551,9 @@ func (a *WorkspaceThreadsAPIService) V1WorkspaceSlugThreadThreadSlugStreamChatPo
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
+	if r.v1WorkspaceSlugThreadThreadSlugChatPostRequest == nil {
+		return localVarReturnValue, nil, reportError("v1WorkspaceSlugThreadThreadSlugChatPostRequest is required and must be specified")
+	}
 
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{"application/json"}
@@ -550,6 +572,8 @@ func (a *WorkspaceThreadsAPIService) V1WorkspaceSlugThreadThreadSlugStreamChatPo
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
+	// body params
+	localVarPostBody = r.v1WorkspaceSlugThreadThreadSlugChatPostRequest
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err

@@ -85,7 +85,7 @@ Name | Type | Description  | Notes
 
 ## V1WorkspaceSlugThreadThreadSlugChatPost
 
-> map[string]interface{} V1WorkspaceSlugThreadThreadSlugChatPost(ctx, slug, threadSlug).Execute()
+> map[string]interface{} V1WorkspaceSlugThreadThreadSlugChatPost(ctx, slug, threadSlug).V1WorkspaceSlugThreadThreadSlugChatPostRequest(v1WorkspaceSlugThreadThreadSlugChatPostRequest).Execute()
 
 
 
@@ -106,10 +106,11 @@ import (
 func main() {
 	slug := "slug_example" // string | Unique slug of workspace
 	threadSlug := "threadSlug_example" // string | Unique slug of thread
+	v1WorkspaceSlugThreadThreadSlugChatPostRequest := *openapiclient.NewV1WorkspaceSlugThreadThreadSlugChatPostRequest("Message_example") // V1WorkspaceSlugThreadThreadSlugChatPostRequest | Send a prompt to the workspace thread and the type of conversation (query or chat).
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.WorkspaceThreadsAPI.V1WorkspaceSlugThreadThreadSlugChatPost(context.Background(), slug, threadSlug).Execute()
+	resp, r, err := apiClient.WorkspaceThreadsAPI.V1WorkspaceSlugThreadThreadSlugChatPost(context.Background(), slug, threadSlug).V1WorkspaceSlugThreadThreadSlugChatPostRequest(v1WorkspaceSlugThreadThreadSlugChatPostRequest).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `WorkspaceThreadsAPI.V1WorkspaceSlugThreadThreadSlugChatPost``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -137,6 +138,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
 
+ **v1WorkspaceSlugThreadThreadSlugChatPostRequest** | [**V1WorkspaceSlugThreadThreadSlugChatPostRequest**](V1WorkspaceSlugThreadThreadSlugChatPostRequest.md) | Send a prompt to the workspace thread and the type of conversation (query or chat). | 
 
 ### Return type
 
@@ -302,7 +304,7 @@ Name | Type | Description  | Notes
 
 ## V1WorkspaceSlugThreadThreadSlugStreamChatPost
 
-> []string V1WorkspaceSlugThreadThreadSlugStreamChatPost(ctx, slug, threadSlug).Execute()
+> []string V1WorkspaceSlugThreadThreadSlugStreamChatPost(ctx, slug, threadSlug).V1WorkspaceSlugThreadThreadSlugChatPostRequest(v1WorkspaceSlugThreadThreadSlugChatPostRequest).Execute()
 
 
 
@@ -323,10 +325,11 @@ import (
 func main() {
 	slug := "slug_example" // string | Unique slug of workspace
 	threadSlug := "threadSlug_example" // string | Unique slug of thread
+	v1WorkspaceSlugThreadThreadSlugChatPostRequest := *openapiclient.NewV1WorkspaceSlugThreadThreadSlugChatPostRequest("Message_example") // V1WorkspaceSlugThreadThreadSlugChatPostRequest | Send a prompt to the workspace thread and the type of conversation (query or chat).
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.WorkspaceThreadsAPI.V1WorkspaceSlugThreadThreadSlugStreamChatPost(context.Background(), slug, threadSlug).Execute()
+	resp, r, err := apiClient.WorkspaceThreadsAPI.V1WorkspaceSlugThreadThreadSlugStreamChatPost(context.Background(), slug, threadSlug).V1WorkspaceSlugThreadThreadSlugChatPostRequest(v1WorkspaceSlugThreadThreadSlugChatPostRequest).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `WorkspaceThreadsAPI.V1WorkspaceSlugThreadThreadSlugStreamChatPost``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -354,6 +357,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
 
+ **v1WorkspaceSlugThreadThreadSlugChatPostRequest** | [**V1WorkspaceSlugThreadThreadSlugChatPostRequest**](V1WorkspaceSlugThreadThreadSlugChatPostRequest.md) | Send a prompt to the workspace thread and the type of conversation (query or chat). | 
 
 ### Return type
 
